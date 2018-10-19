@@ -1,11 +1,22 @@
 from Grafo import Grafo
-from dijkstar import Graph
-from Dijkstra import Dijkstra
+from dijkstar import Graph, find_path
+
+
+class Dijkstra:
+
+    def getdijkstra(self, x, node, graph):
+
+        cost_func = lambda u, v, e, prev_e: e['cost']
+        for n in node:
+            if n is not x:
+                print(find_path(graph, x, n, cost_func=cost_func))
+
 
 menu = 0
 g = Grafo()
+d = Dijkstra()
 graph = Graph()
-valor = input('É valorado?: (S ou N)')
+valor = 'S'
 tipo = input('É orientado? (S ou N)')
 while int(menu) < 5:
     menu = input('\n\n--------------------------------\n'
@@ -27,39 +38,48 @@ while int(menu) < 5:
             vl = input('qual o valor da aresta ?')
             g.criaAresta(v, vz, valor.lower(), vl, tipo)
         elif valor.lower() == 'n':
-            g.criaAresta(v, vz,orientado=tipo )
+            g.criaAresta(v, vz, orientado=tipo)
 
     elif int(menu) == 3:
         print('\n\n')
         g.printArestas()
         print('\n\n')
-        g.listAdjacencia(tipo,valor)
+        g.listAdjacencia(tipo, valor)
         g.adj(valor, tipo)
         g.incidencia(tipo)
 
     elif int(menu) == 4:
         nodes = []
         edges = []
-        nos = input('Digite o conjunto V separado por vírgula: ')
+        nos = input('Digite o conjunto V separado por vírgula,(Apenas números): ')
         for n in nos.split(','):
-           graph.add_node(n)
+            nodes.append(int(n))
+            graph.add_node(int(n))
         if tipo == 'S':
-            e = input('Digite o conjunto e. ex: (1,2,10)')
-            for edge in e.split(')'):
-                edges.append(edge)
-            for edge in edges:
-                graph.add_edge(edge[1],edge[2],edge[3])
-        elif tipo == 'N':
-            e = input('Digite o conjunto e. ex: (1,2,10)')
-            for edge in e.split(')'):
-                edges.append(edge)
-            for edge in edges:
-                graph.add_edge(edge[1], edge[2], edge[3])
-                graph.add_edge(edge[2], edge[1], edge[3])
-        inicio = input('qual o vertice de inicio ?')
-        d = Dijkstra()
-        d.dijkstra(int(inicio), nodes)
+            q = 'S'
+            while q == 'S':
+                q = input('Deseja inserir aresta ?')
+                if q == 'S':
+                    v1 = input('digite vertice 1:   ')
+                    v2 = input('digite vertice 2:   ')
+                    vl = input('digite o valor:     ')
 
+                    graph.add_edge(int(v1), int(v2), {'cost': int(vl)})
+
+        elif tipo == 'N':
+            q = 'S'
+            while q == 'S':
+                q = input('Deseja inserir aresta ?(S/N)')
+                if q == 'S':
+                    v1 = input('digite vertice 1:   ')
+                    v2 = input('digite vertice 2:   ')
+                    vl = input('digite o valor:     ')
+
+                    graph.add_edge(int(v1), int(v2), {'cost': int(vl)})
+                    graph.add_edge(int(v2), int(v1), {'cost': int(vl)})
+        inicio = input('qual o vertice de inicio ?')
+        print(nodes)
+        d.getdijkstra(int(inicio), nodes, graph)
 
     elif int(menu) == 5:
         exit()

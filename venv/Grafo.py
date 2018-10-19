@@ -1,7 +1,6 @@
 from Vertice import Vertice
 from itertools import groupby
 
-
 class Grafo:
     vertices = []
     arestas = []
@@ -154,3 +153,9 @@ class Grafo:
                       print(0, end='  ')
               print(vertice.nome.upper())
               print('\n')
+
+    def getdijkstra(x=2, nodeList=None):
+            cost_func = lambda u, v, e, prev_e: e['cost']
+            for n in nodeList:
+                if n is not x:
+                    print(find_path(graph, x, n, cost_func=cost_func))
