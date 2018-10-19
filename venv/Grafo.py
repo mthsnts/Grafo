@@ -6,7 +6,6 @@ class Grafo:
     vertices = []
     arestas = []
     valores = []
-    arestaAux = []
 
     def newVertice(self, nome):  # cria um novo vertice
         for vt in self.vertices:
